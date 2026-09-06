@@ -1,0 +1,49 @@
+[project]
+name = "piphi-network-ecowitt"
+version = "0.1.1"
+description = "Piphi Network Ecowitt PiPhi integration runtime."
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115.0",
+  "httpx>=0.27.0,<1.0.0",
+  "pydantic>=2.8.0,<3.0.0",
+  "uvicorn[standard]>=0.30.0",
+  "piphi-runtime-kit-python>=0.7.1,<1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3.0,<9.0.0",
+  "pytest-asyncio>=0.24.0",
+  "piphi-runtime-testkit-python==0.1.3",
+  "mypy>=1.18.0",
+  "ruff>=0.15.0",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+
+[project.scripts]
+piphi_network_ecowitt = "piphi_network_ecowitt.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/piphi_network_ecowitt"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/behaviors.json" = "piphi_network_ecowitt/behaviors.json"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint.per-file-ignores]
+"scripts/release.py" = ["BLE001"]
+
+[tool.mypy]
+strict = true
+packages = ["piphi_network_ecowitt"]

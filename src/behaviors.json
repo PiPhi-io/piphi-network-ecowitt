@@ -1,0 +1,52 @@
+{
+  "behaviorSchemaVersion": "integration.behaviors.v2",
+  "templates": [],
+  "devices": [
+    {
+      "id": "ecowitt_weather_station",
+      "name": "Ecowitt weather station",
+      "description": "Local weather gateway readings and attached Ecowitt sensor channels.",
+      "deviceClass": "weather_station",
+      "entityType": "sensor",
+      "capabilities": [
+        "connected", "temperature_c", "humidity_percent", "pressure_hpa",
+        "wind_speed_ms", "wind_gust_ms", "rain_rate_mmh", "rain_daily_mm",
+        "solar_irradiance_wm2", "uv_index", "soil_moisture_percent",
+        "leak_detected", "lightning_distance_km", "lightning_count", "refresh"
+      ],
+      "targeting": {
+        "scopes": ["config", "configs", "room", "rooms", "group", "groups", "tag", "tags", "capability", "selection", "all_matching"],
+        "fanout": {"supported": true, "defaultMode": "selection", "allowedModes": ["config", "configs", "room", "rooms", "group", "groups", "tag", "tags", "capability", "selection", "all_matching"]}
+      },
+      "freshness": {"maxAgeSeconds": 180, "staleDataMode": "warn"},
+      "ui": {"icon": "cloud-sun-rain", "category": "weather"},
+      "triggers": [
+        {"id": "rain_started", "label": "Rain starts", "description": "Start when the measured rain rate becomes positive.", "capability": "sensor.rain_rate_mmh", "runtime": {"event": "weather.rain_started", "source": "integration"}, "freshness": {"maxAgeSeconds": 180, "staleDataMode": "block"}, "ui": {"group": "when"}},
+        {"id": "rain_stopped", "label": "Rain stops", "description": "Start when the measured rain rate returns to zero.", "capability": "sensor.rain_rate_mmh", "runtime": {"event": "weather.rain_stopped", "source": "integration"}, "freshness": {"maxAgeSeconds": 180, "staleDataMode": "block"}, "ui": {"group": "when"}},
+        {"id": "lightning_detected", "label": "Lightning detected", "description": "Start when the gateway reports a new lightning strike.", "capability": "sensor.lightning_count", "runtime": {"event": "weather.lightning_detected", "source": "integration"}, "freshness": {"maxAgeSeconds": 180, "staleDataMode": "block"}, "ui": {"group": "when"}},
+        {"id": "leak_detected", "label": "Leak detected", "description": "Start when an Ecowitt leak sensor changes to wet.", "capability": "sensor.leak_detected", "runtime": {"event": "sensor.leak_detected", "source": "integration"}, "freshness": {"maxAgeSeconds": 180, "staleDataMode": "block"}, "ui": {"group": "when"}},
+        {"id": "gateway_offline", "label": "Gateway goes offline", "description": "Start after a configured gateway poll fails.", "capability": "sensor.connected", "runtime": {"event": "device.offline", "source": "integration"}, "freshness": {"maxAgeSeconds": 300, "staleDataMode": "warn"}, "ui": {"group": "when"}}
+      ],
+      "intents": [
+        {"id": "monitor_weather", "label": "Monitor weather", "description": "React to local weather and environmental readings."},
+        {"id": "protect_home", "label": "Protect my home", "description": "React to leaks, lightning, rain, and gateway outages."}
+      ],
+      "conditions": [
+        {"id": "temperature_above", "label": "Temperature is above", "description": "Continue when outdoor temperature exceeds the chosen value.", "type": "number", "capability": "sensor.temperature_c", "operators": [">", ">=", "<", "<=", "eq"], "runtime": {"source": "state", "field": "temperature_c", "operator": ">"}, "freshness": {"maxAgeSeconds": 180, "staleDataMode": "warn"}, "ui": {"group": "only_if"}, "params": [{"name": "celsius", "label": "Temperature", "type": "number", "min": -60, "max": 80, "step": 0.5, "unit": "C", "required": true}]},
+        {"id": "rain_rate_above", "label": "Rain rate is above", "description": "Continue when the rain rate exceeds the chosen value.", "type": "number", "capability": "sensor.rain_rate_mmh", "operators": [">", ">=", "<", "<=", "eq"], "runtime": {"source": "state", "field": "rain_rate_mmh", "operator": ">"}, "freshness": {"maxAgeSeconds": 180, "staleDataMode": "warn"}, "ui": {"group": "only_if"}, "params": [{"name": "millimeters_per_hour", "label": "Rain rate", "type": "number", "min": 0, "max": 1000, "step": 0.1, "unit": "mm/h", "required": true}]},
+        {"id": "leak_active", "label": "Leak is active", "description": "Continue while a leak sensor reports wet.", "type": "boolean", "capability": "sensor.leak_detected", "operators": ["eq", "neq"], "runtime": {"source": "state", "field": "leak_detected", "operator": "eq"}, "freshness": {"maxAgeSeconds": 180, "staleDataMode": "block"}, "ui": {"group": "only_if"}}
+      ],
+      "actions": [
+        {
+          "id": "refresh", "label": "Refresh readings", "description": "Fetch fresh readings from each selected Ecowitt gateway.",
+          "capability": "device.refresh", "capabilityRequirements": ["device.refresh"],
+          "runtime": {"command": "refresh", "endpoint": "/command", "method": "POST", "timeoutSeconds": 15},
+          "safety": {"riskLevel": "low", "requiresConfirmation": false, "liveRunAllowed": true},
+          "targeting": {"fanoutSafe": true, "supportsMultiTarget": true, "scopes": ["config", "configs", "room", "rooms", "group", "groups", "tag", "tags", "capability", "selection", "all_matching"]},
+          "failure": {"strategy": "retry_then_continue", "retry": {"maxAttempts": 1, "delaySeconds": 2, "backoff": "fixed"}, "timeoutSeconds": 15, "continueOnPartialFailure": true, "idempotent": true},
+          "ui": {"group": "do_this"}
+        }
+      ]
+    }
+  ]
+}

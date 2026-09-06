@@ -1,0 +1,48 @@
+{
+  "entities": [
+    {
+      "id": "garden-weather",
+      "name": "Garden Weather",
+      "config_id": "garden-weather",
+      "device_id": "garden-weather",
+      "entity_type": "sensor",
+      "device_class": "weather_station",
+      "capabilities": [
+        "connected", "temperature_c", "humidity_percent", "pressure_hpa",
+        "wind_speed_ms", "rain_rate_mmh", "refresh"
+      ],
+      "available_commands": [{"id": "refresh", "label": "Refresh", "kind": "action"}],
+      "dashboard": {
+        "allowed_widgets": ["external-widget", "tile", "stat", "line-chart"],
+        "default_widget": "external-widget",
+        "recommended_widgets": ["external-widget"]
+      }
+    },
+    {
+      "id": "garden-weather:ch_soil-1",
+      "name": "Tomatoes",
+      "config_id": "garden-weather",
+      "device_id": "garden-weather:ch_soil-1",
+      "parent_device_id": "garden-weather",
+      "entity_type": "sensor",
+      "device_class": "soil",
+      "capabilities": ["connected", "soil_moisture_percent", "battery_level"],
+      "available_commands": []
+    }
+  ],
+  "capabilities": {
+    "connected": {"kind": "sensor", "unit": "bool"},
+    "temperature_c": {"kind": "sensor", "unit": "C"},
+    "humidity_percent": {"kind": "sensor", "unit": "%"},
+    "pressure_hpa": {"kind": "sensor", "unit": "hPa"},
+    "soil_moisture_percent": {"kind": "sensor", "unit": "%"},
+    "battery_level": {"kind": "sensor", "unit": "level"},
+    "refresh": {"kind": "action"}
+  },
+  "commands": {
+    "refresh": {
+      "description": "Fetch fresh readings from the configured Ecowitt gateway.",
+      "timeout_ms": 15000
+    }
+  }
+}

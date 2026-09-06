@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install pdm
+      - run: pdm install -G dev
+      - run: pdm run pytest
+      - run: pdm run ruff check .
+      - run: pdm run mypy src
+      - run: pdm run python scripts/validate.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: widgets/ecowitt-weather-overview/package-lock.json
+      - name: Validate Ecowitt widget
+        working-directory: widgets/ecowitt-weather-overview
+        run: |
+          npm ci
+          npm run validate
+          npm test
+          npm run build
+          npm run conformance
+      - run: docker build -t piphi-runtime-smoke .

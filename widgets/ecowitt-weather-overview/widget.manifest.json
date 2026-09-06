@@ -1,0 +1,90 @@
+{
+  "id": "io.piphi.ecowitt.weather-overview",
+  "name": "Ecowitt weather overview",
+  "version": "0.1.1",
+  "entry": "./dist/widget.js",
+  "binding_modes": [
+    "read"
+  ],
+  "value_kinds": [
+    "numeric",
+    "text",
+    "boolean",
+    "enum"
+  ],
+  "capability_requirements": [
+    "connected"
+  ],
+  "sdk_compatibility": {
+    "minimum": "0.4.0"
+  },
+  "conformance": {
+    "accessibility": "wcag2.2-aa",
+    "keyboard": true,
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "directions": [
+      "ltr",
+      "rtl"
+    ],
+    "states": [
+      "loading",
+      "live",
+      "stale",
+      "offline",
+      "reconnecting",
+      "denied",
+      "error"
+    ]
+  },
+  "settings_schema_version": "1",
+  "settings": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "Title",
+      "default": "Weather now"
+    },
+    {
+      "id": "fixture",
+      "type": "device",
+      "label": "Device",
+      "required": true
+    }
+  ],
+  "layout": {
+    "min_height": 220,
+    "default_height": 300,
+    "max_height": 520
+  },
+  "previews": {
+    "light": "./previews/light.svg",
+    "dark": "./previews/dark.svg"
+  },
+  "translations": {
+    "en": {
+      "widget.title": "Weather now",
+      "widget.waiting": "Waiting for Ecowitt readings"
+    },
+    "es": {
+      "widget.title": "Tiempo ahora",
+      "widget.waiting": "Esperando lecturas de Ecowitt"
+    },
+    "ar": {
+      "widget.title": "الطقس الآن",
+      "widget.waiting": "في انتظار قراءات Ecowitt"
+    }
+  },
+  "security": {
+    "permissions": [],
+    "sandbox": [
+      "allow-scripts"
+    ],
+    "csp": {
+      "connect_src": []
+    }
+  },
+  "integrity": "sha256-C+KitCtJQsi4bCPD1LL8qyg10XkpjM22NxmCgcVaFZE="
+}

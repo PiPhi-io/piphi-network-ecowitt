@@ -1,0 +1,17 @@
+{
+  "name": "ecowitt-weather-overview",
+  "version": "0.1.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "mkdir -p dist && cp src/widget.js dist/widget.js",
+    "dev": "piphi-widget dev",
+    "validate": "piphi-widget validate",
+    "conformance": "piphi-widget conformance",
+    "test": "node --test test/*.test.mjs",
+    "pack": "piphi-widget pack"
+  },
+  "dependencies": {
+    "piphi-network-widget-sdk": "^0.4.0"
+  }
+}
