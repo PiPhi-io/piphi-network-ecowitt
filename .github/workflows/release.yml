@@ -158,13 +158,18 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add manifest.json
-          for file in pyproject.toml package.json go.mod widgets/ecowitt-weather-overview/package.json widgets/ecowitt-weather-overview/package-lock.json widgets/ecowitt-weather-overview/widget.manifest.json; do
+          for file in pyproject.toml package.json go.mod src/piphi_network_ecowitt/settings.py widgets/ecowitt-weather-overview/package.json widgets/ecowitt-weather-overview/package-lock.json widgets/ecowitt-weather-overview/widget.manifest.json; do
             if [[ -f "$file" ]]; then
               git add "$file"
             fi
           done
           git commit -m "release: v${{ steps.version.outputs.version }}"
           git tag "v${{ steps.version.outputs.version }}"
+
+      - name: Validate resolved release metadata
+        run: |
+          pytest
+          python scripts/validate.py
 
       - name: Capture release revision
         id: git

@@ -18,6 +18,9 @@ SEMVER_RE = re.compile(
 )
 PYPROJECT_VERSION_RE = re.compile(r'(?m)^(version\s*=\s*")([^"]+)(")$')
 PACKAGE_VERSION_RE = re.compile(r'(?m)^\s*"version"\s*:\s*"([^"]+)"')
+RUNTIME_VERSION_RE = re.compile(
+    r'(?m)^(INTEGRATION_VERSION\s*=\s*")([^"]+)(")$'
+)
 DEFAULT_PREID = "alpha"
 BUMP_CHOICES = (
     "major",
@@ -115,6 +118,11 @@ def read_version_file(path: Path) -> tuple[str, SemVer] | None:
     if path.name == "package.json" or path.suffix == ".json":
         payload = json.loads(text)
         return text, SemVer.parse(str(payload.get("version") or ""))
+    if path.name == "settings.py":
+        match = RUNTIME_VERSION_RE.search(text)
+        if match is None:
+            raise ValueError("Unable to find INTEGRATION_VERSION in settings.py")
+        return text, SemVer.parse(match.group(2))
     return None
 
 
@@ -128,7 +136,17 @@ def write_version_file(path: Path, text: str, version: str) -> None:
     if path.name == "package.json" or path.suffix == ".json":
         payload = json.loads(text)
         payload["version"] = version
+        if path.name == "package-lock.json":
+            root_package = payload.get("packages", {}).get("")
+            if isinstance(root_package, dict):
+                root_package["version"] = version
         path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+        return
+    if path.name == "settings.py":
+        updated, count = RUNTIME_VERSION_RE.subn(rf"\g<1>{version}\g<3>", text, count=1)
+        if count != 1:
+            raise ValueError("Unable to update INTEGRATION_VERSION in settings.py")
+        path.write_text(updated, encoding="utf-8")
 
 
 def resolve_target_version(
@@ -268,6 +286,10 @@ def main() -> int:
     widget_manifest_path = (
         repo_root / "widgets" / "ecowitt-weather-overview" / "widget.manifest.json"
     )
+    widget_lock_path = (
+        repo_root / "widgets" / "ecowitt-weather-overview" / "package-lock.json"
+    )
+    runtime_settings_path = repo_root / "src" / "piphi_network_ecowitt" / "settings.py"
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     manifest_version = SemVer.parse(str(manifest.get("version") or "").strip())
@@ -278,6 +300,8 @@ def main() -> int:
             (package_path, read_version_file(package_path)),
             (widget_package_path, read_version_file(widget_package_path)),
             (widget_manifest_path, read_version_file(widget_manifest_path)),
+            (widget_lock_path, read_version_file(widget_lock_path)),
+            (runtime_settings_path, read_version_file(runtime_settings_path)),
         ]
         if result is not None
     ]
