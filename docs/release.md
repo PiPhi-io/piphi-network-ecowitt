@@ -14,11 +14,11 @@ The generated workflow is triggered manually from GitHub Actions. It bumps the
 semantic version, updates release metadata, commits and tags the release, builds
 a multi-architecture Docker image, pushes it, and creates a GitHub release.
 
-Docker Hub publication uses trusted OIDC. Before the first release, create the
-`piphi/piphi-network-ecowitt` Docker Hub repository and an OIDC connection whose
-subject matches this repository's immutable organization/repository IDs and the
-`main` branch. Set repository variables `DOCKERHUB_USERNAME` and
-`DOCKERHUB_OIDC_CONNECTIONID`; no long-lived Docker token is used.
+Docker Hub publication uses a repository-scoped GitHub Actions secret. Before
+the first release, create the `piphi/piphi-network-ecowitt` Docker Hub
+repository and a Docker Hub access token with push access to that repository.
+Set repository variable `DOCKERHUB_USERNAME` to the Docker ID that owns the
+token and repository secret `DOCKERHUB_TOKEN` to the token value.
 
 The release script keeps the runtime manifest, Python package, Widget SDK
 package/manifest, manifest widget catalog, and container tags on one version.
