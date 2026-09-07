@@ -1,7 +1,7 @@
 {
   "id": "io.piphi.ecowitt.weather-overview",
   "name": "Ecowitt weather overview",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "entry": "./dist/widget.js",
   "binding_modes": [
     "read"
@@ -73,8 +73,8 @@
       "widget.waiting": "Esperando lecturas de Ecowitt"
     },
     "ar": {
-      "widget.title": "الطقس الآن",
-      "widget.waiting": "في انتظار قراءات Ecowitt"
+      "widget.title": "\u0627\u0644\u0637\u0642\u0633 \u0627\u0644\u0622\u0646",
+      "widget.waiting": "\u0641\u064a \u0627\u0646\u062a\u0638\u0627\u0631 \u0642\u0631\u0627\u0621\u0627\u062a Ecowitt"
     }
   },
   "security": {

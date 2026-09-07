@@ -1,6 +1,6 @@
 [project]
 name = "piphi-network-ecowitt"
-version = "0.1.1"
+version = "0.1.2"
 description = "Piphi Network Ecowitt PiPhi integration runtime."
 requires-python = ">=3.11"
 dependencies = [

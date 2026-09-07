@@ -3,7 +3,7 @@
   "manifest_version": "1.0",
   "id": "piphi-network-ecowitt",
   "name": "PiPhi Network Ecowitt",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Cloud-free monitoring for Ecowitt weather gateways and their attached sensors using the official HTTP LAN API.",
   "metadata": {
     "generator": "piphi-network-create",
@@ -17,7 +17,7 @@
     "website": "https://github.com/KelvinSan"
   },
   "license": "Apache-2.0",
-  "image": "docker.io/piphinetwork/piphi-network-ecowitt:0.1.1",
+  "image": "docker.io/piphinetwork/piphi-network-ecowitt:0.1.2",
   "platforms": [
     "linux"
   ],
@@ -25,7 +25,7 @@
     "linux": {
       "type": "container",
       "container": {
-        "image": "docker.io/piphinetwork/piphi-network-ecowitt:0.1.1",
+        "image": "docker.io/piphinetwork/piphi-network-ecowitt:0.1.2",
         "ports": [
           {
             "container": 8090,
@@ -93,51 +93,230 @@
     ]
   },
   "capabilities": {
-    "connected": {"kind": "sensor", "unit": "bool", "dashboard": {"allowed_widgets": ["tile", "status-list"], "default_widget": "tile"}},
-    "temperature_c": {"kind": "sensor", "unit": "C", "dashboard": {"allowed_widgets": ["external-widget", "stat", "line-chart"], "default_widget": "external-widget"}},
-    "indoor_temperature_c": {"kind": "sensor", "unit": "C", "dashboard": {"allowed_widgets": ["external-widget", "stat", "line-chart"], "default_widget": "external-widget"}},
-    "dew_point_c": {"kind": "sensor", "unit": "C"},
-    "wind_chill_c": {"kind": "sensor", "unit": "C"},
-    "heat_index_c": {"kind": "sensor", "unit": "C"},
-    "humidity_percent": {"kind": "sensor", "unit": "%", "dashboard": {"allowed_widgets": ["external-widget", "gauge", "line-chart"], "default_widget": "external-widget"}},
-    "indoor_humidity_percent": {"kind": "sensor", "unit": "%"},
-    "absolute_pressure_hpa": {"kind": "sensor", "unit": "hPa"},
-    "pressure_hpa": {"kind": "sensor", "unit": "hPa", "dashboard": {"allowed_widgets": ["external-widget", "stat", "line-chart"], "default_widget": "external-widget"}},
-    "wind_direction_deg": {"kind": "sensor", "unit": "deg"},
-    "wind_speed_ms": {"kind": "sensor", "unit": "m/s"},
-    "wind_gust_ms": {"kind": "sensor", "unit": "m/s"},
-    "daily_max_wind_ms": {"kind": "sensor", "unit": "m/s"},
-    "rain_event_mm": {"kind": "sensor", "unit": "mm"},
-    "rain_rate_mmh": {"kind": "sensor", "unit": "mm/h"},
-    "rain_daily_mm": {"kind": "sensor", "unit": "mm"},
-    "rain_weekly_mm": {"kind": "sensor", "unit": "mm"},
-    "rain_monthly_mm": {"kind": "sensor", "unit": "mm"},
-    "rain_yearly_mm": {"kind": "sensor", "unit": "mm"},
-    "rain_total_mm": {"kind": "sensor", "unit": "mm"},
-    "piezo_rain_event_mm": {"kind": "sensor", "unit": "mm"},
-    "piezo_rain_rate_mmh": {"kind": "sensor", "unit": "mm/h"},
-    "piezo_rain_daily_mm": {"kind": "sensor", "unit": "mm"},
-    "piezo_rain_weekly_mm": {"kind": "sensor", "unit": "mm"},
-    "piezo_rain_monthly_mm": {"kind": "sensor", "unit": "mm"},
-    "piezo_rain_yearly_mm": {"kind": "sensor", "unit": "mm"},
-    "piezo_rain_total_mm": {"kind": "sensor", "unit": "mm"},
-    "solar_irradiance_wm2": {"kind": "sensor", "unit": "W/m2"},
-    "uv_index": {"kind": "sensor", "unit": "index"},
-    "soil_moisture_percent": {"kind": "sensor", "unit": "%"},
-    "leaf_wetness_percent": {"kind": "sensor", "unit": "%"},
-    "leak_detected": {"kind": "sensor", "unit": "bool"},
-    "pm1_ugm3": {"kind": "sensor", "unit": "ug/m3"},
-    "pm25_ugm3": {"kind": "sensor", "unit": "ug/m3"},
-    "pm4_ugm3": {"kind": "sensor", "unit": "ug/m3"},
-    "pm10_ugm3": {"kind": "sensor", "unit": "ug/m3"},
-    "co2_ppm": {"kind": "sensor", "unit": "ppm"},
-    "battery_level": {"kind": "sensor", "unit": "level"},
-    "battery_voltage_v": {"kind": "sensor", "unit": "V"},
-    "depth_mm": {"kind": "sensor", "unit": "mm"},
-    "air_gap_mm": {"kind": "sensor", "unit": "mm"},
-    "lightning_distance_km": {"kind": "sensor", "unit": "km"},
-    "lightning_count": {"kind": "sensor", "unit": "count"},
-    "refresh": {"kind": "action", "dashboard": {"allowed_widgets": ["button"], "default_widget": "button"}}
+    "connected": {
+      "kind": "sensor",
+      "unit": "bool",
+      "dashboard": {
+        "allowed_widgets": [
+          "tile",
+          "status-list"
+        ],
+        "default_widget": "tile"
+      }
+    },
+    "temperature_c": {
+      "kind": "sensor",
+      "unit": "C",
+      "dashboard": {
+        "allowed_widgets": [
+          "external-widget",
+          "stat",
+          "line-chart"
+        ],
+        "default_widget": "external-widget"
+      }
+    },
+    "indoor_temperature_c": {
+      "kind": "sensor",
+      "unit": "C",
+      "dashboard": {
+        "allowed_widgets": [
+          "external-widget",
+          "stat",
+          "line-chart"
+        ],
+        "default_widget": "external-widget"
+      }
+    },
+    "dew_point_c": {
+      "kind": "sensor",
+      "unit": "C"
+    },
+    "wind_chill_c": {
+      "kind": "sensor",
+      "unit": "C"
+    },
+    "heat_index_c": {
+      "kind": "sensor",
+      "unit": "C"
+    },
+    "humidity_percent": {
+      "kind": "sensor",
+      "unit": "%",
+      "dashboard": {
+        "allowed_widgets": [
+          "external-widget",
+          "gauge",
+          "line-chart"
+        ],
+        "default_widget": "external-widget"
+      }
+    },
+    "indoor_humidity_percent": {
+      "kind": "sensor",
+      "unit": "%"
+    },
+    "absolute_pressure_hpa": {
+      "kind": "sensor",
+      "unit": "hPa"
+    },
+    "pressure_hpa": {
+      "kind": "sensor",
+      "unit": "hPa",
+      "dashboard": {
+        "allowed_widgets": [
+          "external-widget",
+          "stat",
+          "line-chart"
+        ],
+        "default_widget": "external-widget"
+      }
+    },
+    "wind_direction_deg": {
+      "kind": "sensor",
+      "unit": "deg"
+    },
+    "wind_speed_ms": {
+      "kind": "sensor",
+      "unit": "m/s"
+    },
+    "wind_gust_ms": {
+      "kind": "sensor",
+      "unit": "m/s"
+    },
+    "daily_max_wind_ms": {
+      "kind": "sensor",
+      "unit": "m/s"
+    },
+    "rain_event_mm": {
+      "kind": "sensor",
+      "unit": "mm"
+    },
+    "rain_rate_mmh": {
+      "kind": "sensor",
+      "unit": "mm/h"
+    },
+    "rain_daily_mm": {
+      "kind": "sensor",
+      "unit": "mm"
+    },
+    "rain_weekly_mm": {
+      "kind": "sensor",
+      "unit": "mm"
+    },
+    "rain_monthly_mm": {
+      "kind": "sensor",
+      "unit": "mm"
+    },
+    "rain_yearly_mm": {
+      "kind": "sensor",
+      "unit": "mm"
+    },
+    "rain_total_mm": {
+      "kind": "sensor",
+      "unit": "mm"
+    },
+    "piezo_rain_event_mm": {
+      "kind": "sensor",
+      "unit": "mm"
+    },
+    "piezo_rain_rate_mmh": {
+      "kind": "sensor",
+      "unit": "mm/h"
+    },
+    "piezo_rain_daily_mm": {
+      "kind": "sensor",
+      "unit": "mm"
+    },
+    "piezo_rain_weekly_mm": {
+      "kind": "sensor",
+      "unit": "mm"
+    },
+    "piezo_rain_monthly_mm": {
+      "kind": "sensor",
+      "unit": "mm"
+    },
+    "piezo_rain_yearly_mm": {
+      "kind": "sensor",
+      "unit": "mm"
+    },
+    "piezo_rain_total_mm": {
+      "kind": "sensor",
+      "unit": "mm"
+    },
+    "solar_irradiance_wm2": {
+      "kind": "sensor",
+      "unit": "W/m2"
+    },
+    "uv_index": {
+      "kind": "sensor",
+      "unit": "index"
+    },
+    "soil_moisture_percent": {
+      "kind": "sensor",
+      "unit": "%"
+    },
+    "leaf_wetness_percent": {
+      "kind": "sensor",
+      "unit": "%"
+    },
+    "leak_detected": {
+      "kind": "sensor",
+      "unit": "bool"
+    },
+    "pm1_ugm3": {
+      "kind": "sensor",
+      "unit": "ug/m3"
+    },
+    "pm25_ugm3": {
+      "kind": "sensor",
+      "unit": "ug/m3"
+    },
+    "pm4_ugm3": {
+      "kind": "sensor",
+      "unit": "ug/m3"
+    },
+    "pm10_ugm3": {
+      "kind": "sensor",
+      "unit": "ug/m3"
+    },
+    "co2_ppm": {
+      "kind": "sensor",
+      "unit": "ppm"
+    },
+    "battery_level": {
+      "kind": "sensor",
+      "unit": "level"
+    },
+    "battery_voltage_v": {
+      "kind": "sensor",
+      "unit": "V"
+    },
+    "depth_mm": {
+      "kind": "sensor",
+      "unit": "mm"
+    },
+    "air_gap_mm": {
+      "kind": "sensor",
+      "unit": "mm"
+    },
+    "lightning_distance_km": {
+      "kind": "sensor",
+      "unit": "km"
+    },
+    "lightning_count": {
+      "kind": "sensor",
+      "unit": "count"
+    },
+    "refresh": {
+      "kind": "action",
+      "dashboard": {
+        "allowed_widgets": [
+          "button"
+        ],
+        "default_widget": "button"
+      }
+    }
   },
   "commands": {
     "refresh": {
@@ -153,9 +332,16 @@
       "entity_type": "sensor",
       "capabilities": [
         "connected",
-        "temperature_c", "humidity_percent", "pressure_hpa", "wind_speed_ms",
-        "wind_gust_ms", "rain_rate_mmh", "rain_daily_mm", "solar_irradiance_wm2",
-        "uv_index", "refresh"
+        "temperature_c",
+        "humidity_percent",
+        "pressure_hpa",
+        "wind_speed_ms",
+        "wind_gust_ms",
+        "rain_rate_mmh",
+        "rain_daily_mm",
+        "solar_irradiance_wm2",
+        "uv_index",
+        "refresh"
       ],
       "available_commands": [
         {
@@ -166,27 +352,61 @@
       ],
       "dashboard": {
         "allowed_widgets": [
-          "external-widget", "tile", "stat", "line-chart"
+          "external-widget",
+          "tile",
+          "stat",
+          "line-chart"
         ],
         "default_widget": "external-widget",
-        "recommended_widgets": ["external-widget"]
+        "recommended_widgets": [
+          "external-widget"
+        ]
       }
     }
   ],
   "ui": {
-    "widget_packages": [{
-      "id": "io.piphi.ecowitt.weather-overview",
-      "name": "Ecowitt weather overview",
-      "version": "0.1.1",
-      "entry": "/widgets/ecowitt-weather-overview/dist/widget.js",
-      "runtime": "prebuilt_bundle",
-      "host_bridge": {"protocol": "piphi.widget.host", "version": "1", "events": ["ready", "resize"]},
-      "binding_modes": ["read"],
-      "value_kinds": ["numeric", "boolean", "text"],
-      "capability_requirements": ["connected"],
-      "layout": {"min_height": 220, "default_height": 300, "max_height": 520},
-      "security": {"permissions": [], "sandbox": ["allow-scripts"], "csp": {"connect_src": []}}
-    }]
+    "widget_packages": [
+      {
+        "id": "io.piphi.ecowitt.weather-overview",
+        "name": "Ecowitt weather overview",
+        "version": "0.1.2",
+        "entry": "/widgets/ecowitt-weather-overview/dist/widget.js",
+        "runtime": "prebuilt_bundle",
+        "host_bridge": {
+          "protocol": "piphi.widget.host",
+          "version": "1",
+          "events": [
+            "ready",
+            "resize"
+          ]
+        },
+        "binding_modes": [
+          "read"
+        ],
+        "value_kinds": [
+          "numeric",
+          "boolean",
+          "text"
+        ],
+        "capability_requirements": [
+          "connected"
+        ],
+        "layout": {
+          "min_height": 220,
+          "default_height": 300,
+          "max_height": 520
+        },
+        "security": {
+          "permissions": [],
+          "sandbox": [
+            "allow-scripts"
+          ],
+          "csp": {
+            "connect_src": []
+          }
+        }
+      }
+    ]
   },
   "marketplace": {
     "brand_domain": "ecowitt.com",
@@ -194,11 +414,25 @@
     "display_name": "Ecowitt Weather",
     "summary": "Monitor an Ecowitt gateway and attached weather, air-quality, soil, leak, lightning, and level sensors over your local network.",
     "category": "weather",
-    "device_types": ["weather_station", "environment_sensor", "soil_sensor", "leak_sensor", "air_quality_sensor"],
-    "protocols": ["ecowitt_http_lan_api"],
-    "regions": ["WW"],
-    "languages": ["en"],
-    "discovery_methods": ["manual"],
+    "device_types": [
+      "weather_station",
+      "environment_sensor",
+      "soil_sensor",
+      "leak_sensor",
+      "air_quality_sensor"
+    ],
+    "protocols": [
+      "ecowitt_http_lan_api"
+    ],
+    "regions": [
+      "WW"
+    ],
+    "languages": [
+      "en"
+    ],
+    "discovery_methods": [
+      "manual"
+    ],
     "connectivity": "local",
     "offline_support": "local_only",
     "publisher": {
@@ -207,14 +441,22 @@
       "support_url": "https://github.com/PiPhi-io/piphi-network-ecowitt/issues",
       "security_contact": "support@piphi.network"
     },
-    "access": [{
-      "id": "local_network",
-      "label": "Local network access",
-      "reason": "Reads live measurements from the configured Ecowitt gateway HTTP endpoint; no cloud account or device mutation is used.",
-      "required": true
-    }],
+    "access": [
+      {
+        "id": "local_network",
+        "label": "Local network access",
+        "reason": "Reads live measurements from the configured Ecowitt gateway HTTP endpoint; no cloud account or device mutation is used.",
+        "required": true
+      }
+    ],
     "compatibility": [
-      {"brand": "Ecowitt", "model": "HTTP LAN API compatible gateways and consoles", "regions": ["WW"]}
+      {
+        "brand": "Ecowitt",
+        "model": "HTTP LAN API compatible gateways and consoles",
+        "regions": [
+          "WW"
+        ]
+      }
     ],
     "documentation_url": "https://github.com/PiPhi-io/piphi-network-ecowitt",
     "support_url": "https://github.com/PiPhi-io/piphi-network-ecowitt/issues",
@@ -225,7 +467,9 @@
       "publication_status": "draft",
       "rollout_percent": 0,
       "lifecycle_status": "active",
-      "qualification": {"status": "unverified"}
+      "qualification": {
+        "status": "unverified"
+      }
     }
   }
 }
