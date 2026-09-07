@@ -15,10 +15,10 @@ semantic version, updates release metadata, commits and tags the release, builds
 a multi-architecture Docker image, pushes it, and creates a GitHub release.
 
 Docker Hub publication uses a repository-scoped GitHub Actions secret. Before
-the first release, create the `piphi/piphi-network-ecowitt` Docker Hub
-repository and a Docker Hub access token with push access to that repository.
-Set repository variable `DOCKERHUB_USERNAME` to the Docker ID that owns the
-token and repository secret `DOCKERHUB_TOKEN` to the token value.
+the first release, create the `piphinetwork/piphi-network-ecowitt` Docker Hub
+repository and an organization access token with push access to that repository.
+Set repository variable `DOCKERHUB_USERNAME` to `piphinetwork` and repository
+secret `DOCKERHUB_TOKEN` to the token value.
 
 The release script keeps the runtime manifest, Python package, Widget SDK
 package/manifest, manifest widget catalog, and container tags on one version.
@@ -26,5 +26,5 @@ package/manifest, manifest widget catalog, and container tags on one version.
 Current image target:
 
 ```text
-docker.io/piphi/piphi-network-ecowitt:0.1.1
+docker.io/piphinetwork/piphi-network-ecowitt:0.1.1
 ```

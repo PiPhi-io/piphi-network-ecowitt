@@ -48,7 +48,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  RELEASE_IMAGE: docker.io/piphi/piphi-network-ecowitt
+  RELEASE_IMAGE: docker.io/piphinetwork/piphi-network-ecowitt
   RELEASE_REGISTRY_KIND: dockerhub
   DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}

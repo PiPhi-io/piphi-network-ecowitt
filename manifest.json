@@ -17,7 +17,7 @@
     "website": "https://github.com/KelvinSan"
   },
   "license": "Apache-2.0",
-  "image": "docker.io/piphi/piphi-network-ecowitt:0.1.1",
+  "image": "docker.io/piphinetwork/piphi-network-ecowitt:0.1.1",
   "platforms": [
     "linux"
   ],
@@ -25,7 +25,7 @@
     "linux": {
       "type": "container",
       "container": {
-        "image": "docker.io/piphi/piphi-network-ecowitt:0.1.1",
+        "image": "docker.io/piphinetwork/piphi-network-ecowitt:0.1.1",
         "ports": [
           {
             "container": 8090,

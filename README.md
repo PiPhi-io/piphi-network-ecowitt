@@ -62,8 +62,8 @@ See [docs/contract.md](docs/contract.md) for the runtime and automation contract
 ## Container
 
 ```bash
-docker build -t docker.io/piphi/piphi-network-ecowitt:0.1.1 .
-docker run --rm -p 8090:8090 docker.io/piphi/piphi-network-ecowitt:0.1.1
+docker build -t docker.io/piphinetwork/piphi-network-ecowitt:0.1.1 .
+docker run --rm -p 8090:8090 docker.io/piphinetwork/piphi-network-ecowitt:0.1.1
 ```
 
 The image contains the prebuilt Widget SDK bundle under `/app/widgets` and sets
